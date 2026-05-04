@@ -24,9 +24,6 @@ services:
       - /app/node_modules
     ports:
       - "5173:5173"
-    environment:
-      - NODE_ENV=development
-      - VITE_API_URL=http://localhost:4000
     depends_on:
       - backend-chinaloh
     restart: unless-stopped

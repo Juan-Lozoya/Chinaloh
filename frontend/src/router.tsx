@@ -1,8 +1,11 @@
 import {
   createRouter,
   createRoute,
-  createRootRoute,
+  createRootRouteWithContext,
+  redirect,
 } from "@tanstack/react-router";
+import type { AuthState } from "./store/slices/authSlice";
+import { store } from "./store";
 import RootDocument from "./rootDocument";
 
 import DashboardLayout from "./routes/dashboard/layout";
@@ -11,8 +14,12 @@ import AuthLayout from "./routes/auth/layout";
 import LoginPage from "./routes/auth/login";
 import RegisterPage from "./routes/auth/register";
 
+interface RouterContext {
+  auth: AuthState;
+}
+
 // Parent of Everything
-const rootRoute = createRootRoute({
+export const rootRoute = createRootRouteWithContext<RouterContext>()({
   component: RootDocument,
 });
 
@@ -27,6 +34,14 @@ const pagesLayoutRoot = createRoute({
   getParentRoute: () => rootRoute,
   id: "page",
   component: DashboardLayout,
+  beforeLoad: ({ context, location }) => {
+    if (!context.auth.isAuthenticated) {
+      throw redirect({
+        to: "/login",
+        search: { redirect: location.href },
+      });
+    }
+  },
 });
 
 // Children Pages
@@ -47,7 +62,10 @@ const routeTree = rootRoute.addChildren([
   pagesLayoutRoot.addChildren([]),
 ]);
 
-export const router = createRouter({ routeTree });
+export const router = createRouter({
+  routeTree,
+  context: { auth: store.getState().auth },
+});
 
 declare module "@tanstack/react-router" {
   interface Register {
