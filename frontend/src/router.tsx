@@ -13,6 +13,7 @@ import AuthLayout from "./routes/auth/layout";
 
 import LoginPage from "./routes/auth/login";
 import RegisterPage from "./routes/auth/register";
+import HomeDashboard from "./routes/dashboard/home";
 
 interface RouterContext {
   auth: AuthState;
@@ -34,14 +35,14 @@ const pagesLayoutRoot = createRoute({
   getParentRoute: () => rootRoute,
   id: "page",
   component: DashboardLayout,
-  beforeLoad: ({ context, location }) => {
-    if (!context.auth.isAuthenticated) {
-      throw redirect({
-        to: "/login",
-        search: { redirect: location.href },
-      });
-    }
-  },
+  // beforeLoad: ({ context, location }) => {
+  //   if (!context.auth.isAuthenticated) {
+  //     throw redirect({
+  //       to: "/login",
+  //       search: { redirect: location.href },
+  //     });
+  //   }
+  // },
 });
 
 // Children Pages
@@ -57,9 +58,15 @@ const registerRoute = createRoute({
   component: RegisterPage,
 });
 
+const homeDashboard = createRoute({
+  getParentRoute: () => pagesLayoutRoot,
+  path: "/home",
+  component: HomeDashboard,
+});
+
 const routeTree = rootRoute.addChildren([
   authLayoutRoot.addChildren([loginRoute, registerRoute]),
-  pagesLayoutRoot.addChildren([]),
+  pagesLayoutRoot.addChildren([homeDashboard]),
 ]);
 
 export const router = createRouter({
