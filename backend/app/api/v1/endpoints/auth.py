@@ -8,7 +8,7 @@ router = APIRouter()
 
 @router.post("/login")
 def login(body: LoginRequest, response: Response):
-    token = login_user(body.username)
+    token = login_user(body.username, body.password)
 
     if not token:
         return {"error": "Invalid credentials"}
@@ -20,7 +20,7 @@ def login(body: LoginRequest, response: Response):
         samesite="lax",
     )
 
-    return {"message": "Logged in"}
+    return {"message": "Logged in", "user": "Juan"}
 
 
 @router.post("/logout")

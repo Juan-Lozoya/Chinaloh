@@ -4,8 +4,10 @@ import { Cookies } from "react-cookie";
 const cookies = new Cookies();
 
 export const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  // baseURL: import.meta.env.VITE_API_URL,
+  baseURL: "http://localhost:4000/api/v1",
   headers: { "Content-Type": "application/json" },
+  withCredentials: true,
 });
 
 api.interceptors.request.use((config) => {

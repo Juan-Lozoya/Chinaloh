@@ -3,8 +3,9 @@ import { setCredentials, clearCredentials } from "../store/slices/authSlice";
 import type { AppDispatch } from "../store";
 
 export const authService = {
-  login: async (dispatch: AppDispatch, email: string, password: string) => {
-    const { data } = await api.post("/auth/login", { email, password });
+  login: async (dispatch: AppDispatch, username: string, password: string) => {
+    const { data } = await api.post("/login", { username, password });
+    console.log("data", data);
     dispatch(setCredentials({ user: data.user, token: data.access_token }));
     return data.user;
   },
