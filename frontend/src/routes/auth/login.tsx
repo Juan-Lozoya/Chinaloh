@@ -11,7 +11,6 @@ export default function LoginPage() {
   });
 
   const handleSubmit = async () => {
-    console.log(data);
     await authService.login(dispatch, data.username, data.password);
   };
 
