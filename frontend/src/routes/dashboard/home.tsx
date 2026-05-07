@@ -5,6 +5,7 @@ import { searchMovie } from "@/services/search.service";
 export default function HomeDashboard() {
   const [search, setSearch] = useState<string>("");
   const [data, setData] = useState([]);
+  const [selectedMovie, setSelectedMovie] = useState("");
 
   const handleSearch = async () => {
     const result = await searchMovie(search);
@@ -28,26 +29,23 @@ export default function HomeDashboard() {
           <Button onClick={handleSearch}>Buscar</Button>
         </div>
 
-        {data.length && (
-          <div>
-            <h1>Hola</h1>
-          </div>
-        )}
-
         {/* <img
-          src="https://image.tmdb.org/t/p/w342/8912AsVuS7Sj915apArUFbv6F9L.jpg"
+          src="https://image.tmdb.org/t/p/w92/8912AsVuS7Sj915apArUFbv6F9L.jpg"
           alt=""
         /> */}
+        {/* Ejemplo, borra despues de usarlo */}
 
         <div className="w-300 h-150 border rounded-lg overflow-hidden self-center justify-self-center">
-          <iframe
-            src="https://vaplayer.ru/embed/movie/1314481"
-            width="100%"
-            height="600"
-            frameborder="0"
-            allowfullscreen
-            allow="autoplay; encrypted-media; picture-in-picture"
-          ></iframe>
+          {selectedMovie.length && (
+            <iframe
+              src={`https://vaplayer.ru/embed/movie/${selectedMovie}`}
+              width="100%"
+              height="600"
+              frameborder="0"
+              allowfullscreen
+              allow="autoplay; encrypted-media; picture-in-picture"
+            ></iframe>
+          )}
         </div>
       </div>
     </>
