@@ -16,7 +16,7 @@ def search(body: SearchBody, response: Response):
     params = {
         "query": body.search,
         "include_adult": True,
-        "language": "en-US",
+        "language": "es-MX",
         "page": 1
     }
     headers = { 
