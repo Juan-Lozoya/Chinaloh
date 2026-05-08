@@ -16,16 +16,16 @@ export default function HomeDashboard() {
   const [selectedMovie, setSelectedMovie] = useState("");
 
   const handleSearch = async () => {
+    if (search.trim() == "") return;
     const result = await searchMovie(search);
 
-    // if (result != undefined && result.data.length) {
-    setData(result.data.results);
-    // }
+    if (result != undefined && result.data.results.length) {
+      setData(result.data.results);
+    }
   };
 
   return (
     <div className="w-full min-h-screen bg-white text-black p-8 flex flex-col gap-8 items-center">
-      {/* Buscador */}
       <div className="flex items-center justify-center space-x-3 mt-10">
         <Input
           value={search}
@@ -39,12 +39,10 @@ export default function HomeDashboard() {
         </Button>
       </div>
 
-      {/* Resultados si existe data */}
       {data.length ? (
         <div className="flex flex-col md:flex-row w-full max-w-7xl mx-auto gap-8 transition-all duration-500 ease-in-out ">
-          {/* columna izquierda */}
           <div className="w-full md:w-1/3 max-h-150 overflow-y-auto rounded-xl">
-            <Accordion className="w-full shadow-sm">
+            <Accordion className="w-full shadow-sm rounded-xl border border-gray-200">
               {data.map((item: Movie) => (
                 <Accordion.Item key={item.id}>
                   <Accordion.Heading>
@@ -77,7 +75,6 @@ export default function HomeDashboard() {
             </Accordion>
           </div>
 
-          {/* Columa de la derecha */}
           <div className="w-full md:w-2/3">
             {selectedMovie.length > 0 ? (
               <div className="w-full aspect-video bg-black border border-gray-200 rounded-xl overflow-hidden shadow-lg">
@@ -90,7 +87,6 @@ export default function HomeDashboard() {
                 ></iframe>
               </div>
             ) : (
-              /* Ventana en espera */
               <div className="w-full aspect-video bg-gray-50 border border-gray-200 rounded-xl flex items-center justify-center text-gray-400 shadow-sm">
                 Selecciona una pelicula para comenzar
               </div>
