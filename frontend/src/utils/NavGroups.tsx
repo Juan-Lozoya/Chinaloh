@@ -1,4 +1,4 @@
-import { Clapperboard, Bookmark } from "lucide-react";
+import { Clapperboard, Bookmark, Compass } from "lucide-react";
 
 interface NavItem {
   label: string;
@@ -15,9 +15,8 @@ export const NAV_GROUPS: NavGroup[] = [
   {
     items: [
       { label: "Buscar & Ver", to: "/home", icon: <Clapperboard size={20} /> },
+      { label: "Explorar", to: "/explore", icon: <Compass size={20} /> },
       { label: "Guardados", to: "/bookmarks", icon: <Bookmark size={20} /> },
-      // { label: "Analytics", to: "/analytics", icon: icons.analytics },
-      // { label: "Users", to: "/users", icon: icons.users },
     ],
   },
 ];
