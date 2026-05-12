@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Response
+from app.utils.keys import MovieDB_Key
 import requests
-import os
 from pydantic import BaseModel
 
 router = APIRouter()
@@ -10,7 +10,6 @@ class SearchBody(BaseModel):
 
 @router.post("/search")
 def search(body: SearchBody, response: Response):
-    tokenMovie = os.getenv("MovieDB_KEY")
     
     url = "https://api.themoviedb.org/3/search/movie"
     params = {
@@ -21,7 +20,7 @@ def search(body: SearchBody, response: Response):
     }
     headers = { 
         "accept": "application/json",
-        "Authorization": f"Bearer {tokenMovie}"
+        "Authorization": f"Bearer {MovieDB_Key}"
     }
     
     tmdb_response = requests.get(url, headers=headers, params=params)
