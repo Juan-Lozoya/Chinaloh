@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.api.v1.endpoints.auth import router as auth_router
 from app.api.v1.endpoints.search import router as search_router
+from app.api.v1.endpoints.trends import router as trends_router
 
 app = FastAPI()
 
@@ -14,6 +15,7 @@ app.add_middleware(
 )
 
 app.include_router(auth_router, prefix="/api/v1")
+app.include_router(trends_router, prefix="/api/v1")
 app.include_router(search_router, prefix="/api/v1")
 
 

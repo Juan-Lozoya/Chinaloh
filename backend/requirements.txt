@@ -3,3 +3,5 @@ uvicorn
 python-dotenv
 PyJWT>=2.0.0
 requests
+httpx
+redis
