@@ -92,3 +92,11 @@ body {
   --warning: oklch(82.03% 0.1388 45.88);
   --warning-foreground: oklch(21.03% 0.0059 45.88);
 }
+
+.hide-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.hide-scroll::-webkit-scrollbar {
+  display: none;
+}
