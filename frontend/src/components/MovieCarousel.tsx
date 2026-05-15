@@ -1,20 +1,25 @@
 import { useRef } from "react";
 import { MovieCard } from "./ui/MovieCard";
-import { CarouselArrow } from "./ui/CarouselArrow"; // <-- Importamos tu nuevo componente
+import { CarouselArrow } from "./ui/CarouselArrow";
 
 interface Movie {
   id: number;
   title: string;
-  poster: string;
+  poster_path: string;
   overview?: string;
 }
 
 interface MovieCarouselProps {
   title?: string;
   movies: Movie[];
+  onAction?: (url: string) => void;
 }
 
-export const MovieCarousel = ({ title, movies }: MovieCarouselProps) => {
+export const MovieCarousel = ({
+  title,
+  movies,
+  onAction,
+}: MovieCarouselProps) => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const scrollLeft = () => {
@@ -35,10 +40,8 @@ export const MovieCarousel = ({ title, movies }: MovieCarouselProps) => {
         )}
 
         <div className="flex items-center gap-2 w-full">
-          {/* componente flecha izquierda*/}
           <CarouselArrow direction="left" onClick={scrollLeft} />
 
-          {/* contendor que mapea las peliculas */}
           <div
             className="flex overflow-x-auto gap-4 py-4 px-2 snap-x w-full hide-scroll"
             ref={scrollRef}
@@ -46,15 +49,16 @@ export const MovieCarousel = ({ title, movies }: MovieCarouselProps) => {
             {movies.map((movie) => (
               <div key={movie.id} className="flex-none snap-start">
                 <MovieCard
+                  movieID={String(movie.id)}
                   title={movie.title}
-                  posterUrl={movie.poster}
+                  posterUrl={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                   description={movie.overview}
+                  onAction={onAction}
                 />
               </div>
             ))}
           </div>
 
-          {/* componente flecha derecha */}
           <CarouselArrow direction="right" onClick={scrollRight} />
         </div>
       </div>
