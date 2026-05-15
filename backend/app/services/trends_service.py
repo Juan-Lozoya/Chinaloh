@@ -1,29 +1,17 @@
-import requests
-import json
-from app.utils.keys import MovieDB_Key
+from app.utils.redis import set_trends_weekly
+from app.clients.tmdb_service import get_trending_movies_week
+from app.clients.tmdb_service import get_trending_tv_week
 
-urlMovies = "https://api.themoviedb.org/3/trending/movie/week?language=en-US"
-urlTv =  "https://api.themoviedb.org/3/trending/tv/week?language=en-US"
-
-headers = { 
-  "accept": "application/json",
-  "Authorization": f"Bearer {MovieDB_Key}"
-}
-
-async def get_trends_weekly(redis, cached_key):
-  tmdb_response_movies = requests.get(urlMovies, headers=headers)
-  tmdb_response_tv = requests.get(urlTv, headers=headers)
-
-  await redis.setex(
-    cached_key,
-    3600 * 24 * 7,
-    json.dumps({
-      "movies": tmdb_response_movies.json(),
-      "tv": tmdb_response_tv.json()
-    })
-  )
-
+def build_trending_response(movies, tv):
   return {
-    "movies": tmdb_response_movies.json(),
-    "tv": tmdb_response_tv.json()
+    "movies": movies,
+    "tv": tv
   }
+
+async def get_trends_weekly(cached_key):
+  movies = get_trending_movies_week()
+  tv = get_trending_tv_week()
+
+  await set_trends_weekly(cached_key, build_trending_response(movies, tv))
+
+  return build_trending_response(movies, tv)

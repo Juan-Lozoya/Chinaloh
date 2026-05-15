@@ -15,5 +15,5 @@ async def getTrends():
   if cached: 
     return json.loads(cached)
   
-  return await get_trends_weekly(redis_client, cached_key)
+  return await get_trends_weekly(cached_key)
 
