@@ -1,4 +1,4 @@
-export default function bookmarkDashboardPage() {
+export default function BookmarkDashboardPage() {
   return (
     <>
       <div>
