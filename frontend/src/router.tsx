@@ -14,8 +14,8 @@ import AuthLayout from "./routes/auth/layout";
 import LoginPage from "./routes/auth/login";
 import RegisterPage from "./routes/auth/register";
 import HomeDashboard from "./routes/dashboard/home";
-import bookmarkDashboardPage from "./routes/dashboard/bookmarks";
-import exploreDashboardPage from "./routes/dashboard/explore";
+import BookmarkDashboardPage from "./routes/dashboard/bookmarks";
+import ExploreDashboardPage from "./routes/dashboard/explore";
 
 interface RouterContext {
   auth: AuthState;
@@ -69,13 +69,13 @@ const homeDashboard = createRoute({
 const bookmarkDashboard = createRoute({
   getParentRoute: () => pagesLayoutRoot,
   path: "/bookmarks",
-  component: bookmarkDashboardPage,
+  component: BookmarkDashboardPage,
 });
 
 const exploreDashboard = createRoute({
   getParentRoute: () => pagesLayoutRoot,
   path: "/explore",
-  component: exploreDashboardPage,
+  component: ExploreDashboardPage,
 });
 
 const routeTree = rootRoute.addChildren([

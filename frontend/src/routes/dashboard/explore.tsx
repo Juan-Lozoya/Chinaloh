@@ -2,7 +2,7 @@ import { MovieCarousel } from "@/components/MovieCarousel";
 import { useQuery } from "@tanstack/react-query";
 import { getTrends } from "@/services/trends.service";
 
-export default function exploreDashboardPage() {
+export default function ExploreDashboardPage() {
   const { data } = useQuery({
     queryKey: ["trends"],
     queryFn: getTrends,
