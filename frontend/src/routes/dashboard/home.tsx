@@ -83,7 +83,7 @@ export default function HomeDashboard() {
                   className="w-full h-full"
                   allowFullScreen
                   allow="autoplay; encrypted-media; picture-in-picture"
-                  sandbox="allow-scripts allow-same-origin allow-presentation"
+                  // sandbox="allow-scripts allow-same-origin allow-presentation"
                 ></iframe>
               </div>
             ) : (
