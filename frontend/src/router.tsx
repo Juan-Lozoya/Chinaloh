@@ -16,6 +16,7 @@ import RegisterPage from "./routes/auth/register";
 import HomeDashboard from "./routes/dashboard/home";
 import BookmarkDashboardPage from "./routes/dashboard/bookmarks";
 import ExploreDashboardPage from "./routes/dashboard/explore";
+import LandingPage from "./routes/landing";
 
 interface RouterContext {
   auth: AuthState;
@@ -25,6 +26,14 @@ interface RouterContext {
 export const rootRoute = createRootRouteWithContext<RouterContext>()({
   component: RootDocument,
 });
+
+// Landing Page
+const LandingPageRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  id: "landingPage",
+  // path: "/",
+  component: LandingPage,
+})
 
 // Layouts
 const authLayoutRoot = createRoute({
@@ -79,7 +88,7 @@ const exploreDashboard = createRoute({
 });
 
 const routeTree = rootRoute.addChildren([
-  authLayoutRoot.addChildren([loginRoute, registerRoute]),
+  authLayoutRoot.addChildren([loginRoute, registerRoute, LandingPageRoute]),
   pagesLayoutRoot.addChildren([
     homeDashboard,
     bookmarkDashboard,
