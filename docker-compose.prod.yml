@@ -18,7 +18,7 @@ services:
       - chinaloh-net
     security_opt:
       - no-new-privileges:true
-    mem_limit: 512m
+    mem_limit: 320m
 
   db-chinaloh:
     image: postgres:16-alpine
@@ -38,7 +38,7 @@ services:
       retries: 5
     networks:
       - chinaloh-net
-    mem_limit: 768m
+    mem_limit: 512m
 
   redis-chinaloh:
     image: redis:7-alpine
@@ -60,7 +60,7 @@ services:
       retries: 5
     networks:
       - chinaloh-net
-    mem_limit: 384m
+    mem_limit: 320m
 
   caddy:
     image: caddy:2-alpine
@@ -76,7 +76,7 @@ services:
       - backend-chinaloh
     networks:
       - chinaloh-net
-    mem_limit: 128m
+    mem_limit: 96m
 
 volumes:
   postgres_data:
