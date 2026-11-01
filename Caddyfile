@@ -1,0 +1,6 @@
+
+api.chinaloh.com {
+    encode gzip zstd
+
+    reverse_proxy backend-chinaloh:4000
+}
