@@ -1,6 +1,7 @@
 import { Input, Button } from "@heroui/react";
 import { useAppDispatch } from "@/store/hooks";
 import { authService } from "@/services/auth.service";
+import { redirect } from "@tanstack/react-router";
 import { useState } from "react";
 
 export default function LoginPage() {
@@ -11,7 +12,15 @@ export default function LoginPage() {
   });
 
   const handleSubmit = async () => {
-    await authService.login(dispatch, data.username, data.password);
+    if (data.username.length == 0 || data.password.length == 0) return;
+
+    const { token } = await authService.login(
+      dispatch,
+      data.username,
+      data.password,
+    );
+
+    if (token) redirect({ to: "/home" });
   };
 
   return (
