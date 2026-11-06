@@ -9,3 +9,4 @@ requests
 httpx
 redis
 pwdlib[argon2]>=0.2.0
+psycopg2-binary
