@@ -13,7 +13,7 @@ def login_user(db, username: str, password: str):
   if not verify_password(password, user.hashed_password):
     return response(False, "Invalid User or Password")
 
-  token = create_access_token({"sub": user.username})
+  token = create_access_token({"sub": user.id})
 
   return response(True, "Login Successful", {
     "user": {
@@ -21,6 +21,6 @@ def login_user(db, username: str, password: str):
       "username": user.username,
       "email": user.email,
     },
-    "access_token": token, # move this only to backend
+    "access_token_chinaloh": token,
     "token_type": "bearer",
   })

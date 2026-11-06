@@ -1,10 +1,13 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from app.utils.keys import MovieDB_Key
 from app.utils.redis import redis_client
+from app.dependencies.auth import get_current_user
 from app.services.trends_service import get_trends_weekly
 import json
 
-router = APIRouter()
+router = APIRouter(
+  dependencies=[Depends(get_current_user)]
+)
 
 @router.get("/trends")
 async def getTrends():

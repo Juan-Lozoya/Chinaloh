@@ -20,15 +20,15 @@ def login(body: LoginRequest, response: Response, db: Session = Depends(get_db))
         detail=result["message"],
       )
     
-    token = result["data"]["access_token"]
+    token = result["data"]["access_token_chinaloh"]
   
     response.set_cookie(
-      key="token",
+      key="access_token_chinaloh",
       value=token,
       httponly=True,
       secure=True,  # Productino
       samesite="lax",
-      max_age=60 * 30,  # check Exp time in JWT Front
+      max_age = 120,  # check Exp time in JWT Front
       path="/",
     )
   
