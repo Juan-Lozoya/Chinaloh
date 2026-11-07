@@ -12,7 +12,7 @@ import DashboardLayout from "./routes/dashboard/layout";
 import AuthLayout from "./routes/auth/layout";
 
 import LoginPage from "./routes/auth/login";
-import RegisterPage from "./routes/auth/register";
+// import RegisterPage from "./routes/auth/register";
 import HomeDashboard from "./routes/dashboard/home";
 import BookmarkDashboardPage from "./routes/dashboard/bookmarks";
 import ExploreDashboardPage from "./routes/dashboard/explore";
@@ -33,7 +33,7 @@ const LandingPageRoute = createRoute({
   id: "landingPage",
   // path: "/",
   component: LandingPage,
-})
+});
 
 // Layouts
 const authLayoutRoot = createRoute({
@@ -63,11 +63,11 @@ const loginRoute = createRoute({
   component: LoginPage,
 });
 
-const registerRoute = createRoute({
-  getParentRoute: () => authLayoutRoot,
-  path: "/register",
-  component: RegisterPage,
-});
+// const registerRoute = createRoute({
+//   getParentRoute: () => authLayoutRoot,
+//   path: "/register",
+//   component: RegisterPage,
+// });
 
 const homeDashboard = createRoute({
   getParentRoute: () => pagesLayoutRoot,
@@ -88,7 +88,11 @@ const exploreDashboard = createRoute({
 });
 
 const routeTree = rootRoute.addChildren([
-  authLayoutRoot.addChildren([loginRoute, registerRoute, LandingPageRoute]),
+  authLayoutRoot.addChildren([
+    loginRoute,
+    // registerRoute,
+    LandingPageRoute,
+  ]),
   pagesLayoutRoot.addChildren([
     homeDashboard,
     bookmarkDashboard,

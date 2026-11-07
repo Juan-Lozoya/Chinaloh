@@ -32,4 +32,4 @@ app.include_router(search_router, prefix="/api/v1")
 
 @app.get("/")
 def root():
-    return {"message": "Backend running"}
+  return {"message": "Backend running"}
