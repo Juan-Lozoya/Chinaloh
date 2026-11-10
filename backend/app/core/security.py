@@ -10,14 +10,12 @@ password_hash = PasswordHash.recommended()
 
 def create_access_token(data: dict):
   to_encode = data.copy()
-  expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-
-  if "sub" in to_encode:
-    to_encode["sub"] = str(to_encode["sub"])
-
   expire = datetime.now(timezone.utc) + timedelta(
     minutes=ACCESS_TOKEN_EXPIRE_MINUTES
   )
+
+  if "sub" in to_encode:
+    to_encode["sub"] = str(to_encode["sub"])
 
   to_encode.update({"exp": expire})
 
