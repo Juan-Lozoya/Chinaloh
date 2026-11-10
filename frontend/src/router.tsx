@@ -2,11 +2,14 @@ import {
   createRouter,
   createRoute,
   createRootRouteWithContext,
-  // redirect,
+  redirect,
+  isRedirect,
 } from "@tanstack/react-router";
-import type { AuthState } from "./types/AuthTypes";
-import { store } from "./store";
+import { type QueryClient as QueryClientType } from "@tanstack/react-query";
+import { queryClient } from "./lib/queryClient";
 import RootDocument from "./rootDocument";
+import { isAxiosError } from "axios";
+import { authQueryOptions } from "./services/queries/auth.queries";
 
 import DashboardLayout from "./routes/dashboard/layout";
 import AuthLayout from "./routes/auth/layout";
@@ -19,7 +22,7 @@ import ExploreDashboardPage from "./routes/dashboard/explore";
 import LandingPage from "./routes/landing";
 
 interface RouterContext {
-  auth: AuthState;
+  queryClient: QueryClientType;
 }
 
 // Parent of Everything
@@ -40,20 +43,42 @@ const authLayoutRoot = createRoute({
   getParentRoute: () => rootRoute,
   id: "auth",
   component: AuthLayout,
+  beforeLoad: async ({ context }) => {
+    try {
+      await context.queryClient.fetchQuery({
+        ...authQueryOptions,
+        staleTime: 0
+      });
+
+      throw redirect({ to: "/home" });
+    } catch(error){
+      if(isRedirect(error))
+        throw error;
+
+      if(isAxiosError(error) && error.response?.status == 401)
+        return;
+
+      throw error;
+    }
+  }
 });
 
 const pagesLayoutRoot = createRoute({
   getParentRoute: () => rootRoute,
   id: "page",
   component: DashboardLayout,
-  // beforeLoad: ({ context, location }) => {
-  //   if (!context.auth.isAuthenticated) {
-  //     throw redirect({
-  //       to: "/login",
-  //       search: { redirect: location.href },
-  //     });
-  //   }
-  // },
+  beforeLoad: async ({ context, location }) => {
+    try {
+      await context.queryClient.fetchQuery({
+        ...authQueryOptions,
+        staleTime: 0
+      });
+    } catch (error) {
+      if(isAxiosError(error) && error.response?.status == 401)
+        throw redirect({ to: "/login", search: { redirect: location.href } });
+      throw error;
+    }
+  },
 });
 
 // Children Pages
@@ -102,7 +127,7 @@ const routeTree = rootRoute.addChildren([
 
 export const router = createRouter({
   routeTree,
-  context: { auth: store.getState().auth },
+  context: { queryClient },
 });
 
 declare module "@tanstack/react-router" {

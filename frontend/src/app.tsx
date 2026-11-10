@@ -1,13 +1,9 @@
 import { RouterProvider } from "@tanstack/react-router";
-import { store } from "./store";
+import { queryClient } from "./lib/queryClient";
 import { router } from "./router";
 
 export default function App() {
-  store.subscribe(() => {
-    router.invalidate();
-  });
-
   return (
-    <RouterProvider router={router} context={{ auth: store.getState().auth }} />
+    <RouterProvider router={router} context={{ queryClient }} />
   );
 }
