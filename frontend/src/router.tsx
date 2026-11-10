@@ -4,7 +4,7 @@ import {
   createRootRouteWithContext,
   // redirect,
 } from "@tanstack/react-router";
-import type { AuthState } from "./store/slices/authSlice";
+import type { AuthState } from "./types/AuthTypes";
 import { store } from "./store";
 import RootDocument from "./rootDocument";
 
