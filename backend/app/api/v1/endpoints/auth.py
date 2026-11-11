@@ -40,7 +40,11 @@ def login(body: LoginRequest, response: Response, db: Session = Depends(get_db))
       result["message"],
       data={"user": result["data"]["user"]},
     )
+  except HTTPException:
+    raise
   except Exception as e:
+    print(f"Login error: {e}")
+
     raise HTTPException(
       status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
       detail=e
