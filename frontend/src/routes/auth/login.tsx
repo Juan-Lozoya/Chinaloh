@@ -18,7 +18,7 @@ export default function LoginPage() {
     if (user.username.length == 0 || user.password.length == 0) return;
 
     try {
-      const { success, data, message } = await authService.login(user);
+      const { success, data } = await authService.login(user);
 
       if (success) {
         dispatch(setUser(data.user));
