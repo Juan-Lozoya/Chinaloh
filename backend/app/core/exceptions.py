@@ -23,3 +23,10 @@ class MissingTokenException(AuthenticationException):
 class UserNotFoundException(AuthenticationException):
   def __init__(self):
     super().__init__("Authenticated user not found")
+
+class LogoutException(HTTPException):
+  def __init__(self):
+    super().__init__(
+      status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+      detail="Could not complete logout",
+    )

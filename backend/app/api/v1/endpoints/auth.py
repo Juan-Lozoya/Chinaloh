@@ -7,6 +7,7 @@ from app.services.auth_service import login_user
 from app.dependencies.auth import get_current_user
 from app.core.responses import response as responseret
 from app.db.database import get_db
+from app.core.exceptions import LogoutException
 
 router = APIRouter()
 
@@ -68,7 +69,22 @@ def get_me(current_user: User = Depends(get_current_user)):
       detail=e
     )
 
-@router.post("/logout")
+@router.post("/auth/logout")
 def logout(response: Response):
-  response.delete_cookie("token")
-  return {"message": "Logged out"}
+  try: 
+    response.delete_cookie(
+      key = "access_token_chinaloh",
+      path = "/",
+      secure = True,
+      httponly = True,
+      samesite = "lax",
+    )
+
+    return responseret(
+      True,
+      "Logout Successful",
+    )
+  except Exception as exc:
+    raise LogoutException() from exc
+
+  
