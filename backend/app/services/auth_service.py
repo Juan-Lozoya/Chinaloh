@@ -20,6 +20,7 @@ def login_user(db, username: str, password: str):
       "id": user.id,
       "username": user.username,
       "email": user.email,
+      "user_type": user.user_type,
     },
     "access_token_chinaloh": token,
     "token_type": "bearer",

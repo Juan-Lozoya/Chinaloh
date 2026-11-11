@@ -1,16 +1,23 @@
 import { api } from "./api";
-import { setCredentials, clearCredentials } from "../store/slices/authSlice";
-import type { AppDispatch } from "../store";
+import type { AuthResponse } from "@/types/AuthTypes";
+import type { LoginRequest } from "@/types/Login";
 
 export const authService = {
-  login: async (dispatch: AppDispatch, username: string, password: string) => {
-    const { data } = await api.post("/login", { username, password });
-    dispatch(setCredentials({ user: data.user, token: data.access_token }));
-    return data.user;
+  login: async (credentials: LoginRequest): Promise<AuthResponse> => {
+    const { data } = await api.post<AuthResponse>(
+      "/auth/login",
+      credentials
+    );
+    return data;
   },
 
-  logout: (dispatch: AppDispatch) => {
-    dispatch(clearCredentials());
-    window.location.href = "/login";
+  me: async () => {
+    const { data } = await api.get<AuthResponse>("/auth/me");
+
+    return data;
   },
+
+  // logout: async () => {
+  //   await api.post("/auth/logout");
+  // },
 };

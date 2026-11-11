@@ -1,26 +1,32 @@
 import { Input, Button } from "@heroui/react";
 import { useAppDispatch } from "@/store/hooks";
 import { authService } from "@/services/auth.service";
-import { redirect } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
+import { setUser } from "@/store/slices/authSlice";
 import { useState } from "react";
+import type { LoginRequest } from "@/types/Login";
 
 export default function LoginPage() {
   const dispatch = useAppDispatch();
-  const [data, setData] = useState({
+  const navigate = useNavigate();
+  const [user, setData] = useState<LoginRequest>({
     username: "",
     password: "",
   });
 
   const handleSubmit = async () => {
-    if (data.username.length == 0 || data.password.length == 0) return;
+    if (user.username.length == 0 || user.password.length == 0) return;
 
-    const { token } = await authService.login(
-      dispatch,
-      data.username,
-      data.password,
-    );
+    try {
+      const { success, data, message } = await authService.login(user);
 
-    if (token) redirect({ to: "/home" });
+      if (success) {
+        dispatch(setUser(data.user));
+        await navigate({ to: "/home" });
+      }
+    } catch (error) {
+      console.error("Login failed:", error);
+    }
   };
 
   return (
@@ -34,13 +40,13 @@ export default function LoginPage() {
           <Input
             type="text"
             placeholder="Nombre de Usuario"
-            onChange={(e) => setData({ ...data, username: e.target.value })}
+            onChange={(e) => setData({ ...user, username: e.target.value })}
           />
 
           <Input
             type="password"
             placeholder="Contraseña"
-            onChange={(e) => setData({ ...data, password: e.target.value })}
+            onChange={(e) => setData({ ...user, password: e.target.value })}
           />
           <div className="mt-30 w-full flex items-center justify-center">
             <Button onClick={handleSubmit} className="">
